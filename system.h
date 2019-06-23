@@ -63,10 +63,10 @@ class System {
 
 			// if we got majority, send commit to majority nodes
 
-			// update leader info
 
-
-			// send new leader info to all nodes
+			// check if we have competetion, 
+			// a. Competition with same term: if pingable, commit this leader, else incr term and restart
+			// b. Competition with higher term: if pingable, commit this leader else incr term and restart
 
 		}
 
