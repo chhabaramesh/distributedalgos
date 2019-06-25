@@ -36,5 +36,15 @@ RPCProposalRequest(request_id_t req_id, commit_req_t commit);
 bool
 RPCProposalRequest(request_id_t req_id);
 
+/*
+	Test cases
+	----------
+
+	1. All rpcs are working from two different process on same machine and different machines.
+	2. If server or client are not rechable, rpc times out with proper error.
+	3. If server connections fluctuates, rpc connection statys alive 
+
+*/
+
 
 
