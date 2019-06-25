@@ -13,7 +13,6 @@ public:
 
 
 	// RPC received from node on other side
-	pingNodeResponse();
 	proposalResponse();
 	commitResponse();
 	leaderInfoResponse();
