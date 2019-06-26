@@ -44,36 +44,18 @@ class System {
 				continue;
 			}
 
-			gotResponseList;
-			// Start own election algorithm
-			for (node in  nodes) {
-				// send proposal number
-				node->proposalRequest();
-				awaitingResponse.add(node);
+			algo.incr_term();
+			algo.init(cluster);
+			if (algo.doElection()) {
+				// Election was over and successful
+				// Set global leader
+				Leader leader = algo.GetElectedLeader();
 			}
-			
-			while (gotResponse < clusterMajority()) {
-				// wait for rpc response
-			}	
 
-			// if we did not get majority votes
-			// adjust the term number according to response
-			// wait for random time, go to start
-
-
-			// if we got majority, send commit to majority nodes
-
-
-			// check if we have competetion, 
-			// a. Competition with same term: if pingable, commit this leader, else incr term and restart
-			// b. Competition with higher term: if pingable, commit this leader else incr term and restart
-
+			random_backoff(0 to n msecs);
+			// by this time either somebody would have been
+			// selected or we will get better chance now
 		}
 
 	}
-
-	
-
-
-
 }

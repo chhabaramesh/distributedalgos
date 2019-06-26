@@ -1,12 +1,12 @@
-
 typedef proposal_req {
 	term_num_t term;
 	node_id_t node;
 } proposal_req_t;
 
 typedef proposal_req_t commit_req_t;
+typedef proposal_req_t proposal_res_t;
 typedef proposal_req_t leader_info_t;
-typedef leader_info_T ping_response_t;
+typedef leader_info_t ping_response_t;
 
 // Sync rpc
 
