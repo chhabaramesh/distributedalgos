@@ -13,6 +13,7 @@ class PaxosState {
 
 	struc node_state {
 		shared_ptr<Node> node;
+		weak_ptr<PaxosState> algo_state;
 		proposal_res_t res;
 	} node_state_t;
 
@@ -47,4 +48,7 @@ public:
 	// Wait for any pending rpc to timeout or drain
 	bool WaitDrainOutTimeout();
 
+	// Async rpc response collectors, must hold lock before operations
+	bool proposalResponse();
+	bool commitResponse();
 };

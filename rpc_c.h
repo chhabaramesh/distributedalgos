@@ -8,6 +8,26 @@ typedef proposal_req_t proposal_res_t;
 typedef proposal_req_t leader_info_t;
 typedef leader_info_t ping_response_t;
 
+typedef struct rpc_info {
+	request_id_t req_id;
+	callback_t callback;
+	callback_args_t *callback_args;
+} rpc_info_t;
+
+tyepdef rpc_list {
+	rpc_info_t *rpc_map;
+	int count;
+}
+
+rpc_info_t *
+rpc_info_lookup(request_id_t req_id)
+{
+	return &rpc_list[req_id];
+}
+
+request_id_t
+rpc_info_register(rpc_indo_t *info);
+
 // Sync rpc
 
 // Ping a remote node
@@ -31,10 +51,10 @@ RPCProposalResponse(request_id_t req_id, proposal_res_t res);
 // Commit request and response
 // Matched with unique request id parameter
 bool
-RPCProposalRequest(request_id_t req_id, commit_req_t commit);
+RPCCommitRequest(request_id_t req_id, commit_req_t commit);
 
 bool
-RPCProposalRequest(request_id_t req_id);
+RPCCommitResponse(request_id_t req_id);
 
 /*
 	Test cases
