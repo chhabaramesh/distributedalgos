@@ -14,7 +14,7 @@ class Leader {
 
 	leader_state state;
 	int term;
-	leader_node_id leader;
+	node_id_t leader;
 
 	// reader writer lock
 
@@ -22,12 +22,11 @@ public:
 	static string serialize();
 	static Leader deserialize();
 
-	getState();
-	getTerm();
-	setState();
-	getState();
-	setLeader();
-	getLeader();
+	GetState();
+	SetTerm(int term);
+	GetState();
+	SetLeader();
+	GetLeader(node_id_t node);
 };
 
 
@@ -37,9 +36,9 @@ class cluster {
 	shared_ptr<LeaderInfo> leader;
 
 public:
-	void addNode(shared_ptr<Node> node)
-	void removeNode(shared_ptr<Node> node);
-	vector<shared_ptr<Node>> getNodeList();
-	shared_ptr<LeaderInfo> getLeaderInfo();
+	void AddNode(shared_ptr<Node> node)
+	void RemoveNode(shared_ptr<Node> node);
+	vector<shared_ptr<Node>> GetNodeList();
+	shared_ptr<Leader> GetLeader();
 };
 
