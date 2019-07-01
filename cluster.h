@@ -4,6 +4,7 @@
 // Proposars acts as proposer and acceptor same time and only its state
 // as an acceptor is stored persistenly
 
+namespace Paxos {
 class Leader {
 	// State of leader info at any node in cluster
 	typedef enum {
@@ -41,4 +42,6 @@ public:
 	vector<shared_ptr<Node>> GetNodeList();
 	shared_ptr<Leader> GetLeader();
 };
+
+} // end of namespace paxos
 

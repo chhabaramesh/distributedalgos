@@ -2,6 +2,7 @@
 #define __RPC_CHANNEL_H__
 #include <rpc_c.h>
 
+namespace Paxos {
 // RPC channel to one node
 class RPCChannel {
 	weak_ptr<Node> node;
@@ -21,5 +22,6 @@ public:
 	static void CommitResponse(node_state_t *n_state);
 };
 
+} // end of namespace paxos
 // end of file
 #endif

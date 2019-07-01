@@ -1,3 +1,5 @@
+namespace Paxos {
+
 leader_info_t
 Algo::GetElectedLeader()
 {
@@ -47,3 +49,5 @@ Paxos::DoElection()
 
 	return true;
 }
+
+} // end of namespace paxos

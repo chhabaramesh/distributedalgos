@@ -1,5 +1,6 @@
 #ifndef __ALGO_H__
 #define __ALGO_H__
+namespace Paxos {
 
 class Algo {
 	shared_ptr<Store> store;
@@ -25,5 +26,7 @@ class Paxos: public Algo {
 public:
 	bool DoElection();
 };
+
+} // end of namespace Paxos
 
 #endif

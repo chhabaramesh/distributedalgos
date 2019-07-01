@@ -1,4 +1,5 @@
 #include <rpc_c.h>
+namespace Paxos {
 
 leader_info_t
 RPCChannel::PingRequest()
@@ -74,3 +75,5 @@ RPCChannel::CancelRPC(request_id_t req_id)
 {
 	rpc_info_cancel(req_id);
 }
+
+} // end of namespace Paxos

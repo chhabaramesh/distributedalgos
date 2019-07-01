@@ -1,4 +1,7 @@
-voidi
+#include <system.h>
+
+namespace Paxos {
+void
 System::Init(bool init);
 {
 	if (init) {
@@ -34,3 +37,5 @@ System::Loop()
 	}
 
 }
+
+} // end of namespace Paxos
