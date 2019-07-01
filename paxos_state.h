@@ -1,33 +1,54 @@
+#ifndef __PAXOS_STATE_H__
+#define  __PAXOS_STATE_H__
+// start of file
+
+#include <mutex>
+#include <condition_variable> 
+#include <list> 
+
+namespace paxos {
+
+struct node_state {
+	shared_ptr<Node> node;
+	weak_ptr<PaxosState> algo_state;
+	request_id_t rpc_handle;
+	proposal_res_t res;
+
+	node_state(shared_ptr<Node> node)
+	{
+		this->node = node;
+		this->rpc_handle = -1;
+	}
+
+};
+
+typedef std::condition_variable cv_t;
+
 class PaxosState {
-	mutex_t lock;
+	std::mutex lock;
 	cv_t rpc_wait_cv;
-	time_t timeout_msesc;
+	int timeout_msesc;
 	
-	typedef enum algo_state {
-		UINIT = 0,
+	enum algo_state {
+		INIT = 0,
 		STARTED = 1,
-		WAITING_PROPOSALS = 2,
-		WAITING_COMMITS = 3,
-		DONE = 4
-	} algo_state_t;
+		WAITING_PROPOSALS,
+		PROPOSALS_PHASE_OVER,
+		WAITING_COMMITS,
+		DONE = 5
+	} algo_state;
 
-	struc node_state {
-		shared_ptr<Node> node;
-		weak_ptr<PaxosState> algo_state;
-		proposal_res_t res;
-	} node_state_t;
-
-	vector<shared_ptr<node_state_t>> initial_nodes;
-	vector<shared_ptr<node_state_t>> waiting_proposals;
-	vector<shared_ptr<node_state_t>> failed_proposals;
-	vector<shared_ptr<node_state_t>> accepted_proposals;;
-	vector<shared_ptr<node_state_t>> waiting_commits;
-	vector<shared_ptr<node_state_t>> committed;
+	list<shared_ptr<node_state_t>> initial_nodes;
+	list<shared_ptr<node_state_t>> waiting_proposals;
+	list<shared_ptr<node_state_t>> failed_rpc_nodes;
+	list<shared_ptr<node_state_t>> accepted_proposals;;
+	list<shared_ptr<node_state_t>> waiting_commits;
+	list<shared_ptr<node_state_t>> committed;
 
 public:
 	PaxosState(time_t timeout);
-	AddNode(shared_ptr<Node> node);
-	SetMajority(int n);
+	bool AddNode(shared_ptr<Node> node);
+	bool SetMajority(int n);
 
 
 	// do proposal rpc
@@ -37,7 +58,7 @@ public:
 	bool WaitMajorityAcceptedOrTimeout();
 
 	// Get proposal winner info
-	leader_info_t WinnerMajorityProposal();
+	proposal_res_t WinnerMajorityProposal();
 
 	// send commit rpcs
 	bool SendCommits(leader_info_t leader);
@@ -49,6 +70,9 @@ public:
 	bool WaitDrainOutTimeout();
 
 	// Async rpc response collectors, must hold lock before operations
-	bool proposalResponse();
-	bool commitResponse();
+	bool ProposalResponse();
+	bool CommitResponse();
 };
+
+} // namespace end
+//end of file

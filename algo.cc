@@ -1,6 +1,19 @@
-Also::doElection()
+leader_info_t
+Algo::GetElectedLeader()
 {
-	for (node in this->cluster->nodes) {
+	this->leader_info;
+}
+
+void
+Algo:IncrTerm()
+{
+	this->leader_info.term++;
+}
+
+
+Paxos::DoElection()
+{
+	for (auto node : this->cluster->GetNodesList()) {
 		state->AddNode(shared_ptr<Node>);
 	}
 
@@ -8,22 +21,29 @@ Also::doElection()
 
 	if (!state->WaitMajorityAcceptedOrTimeout()) {
 		// accept failed to reach nodes
+		state->WaitDrainOutOrTimeout();
+		return false;
 	}
 
 	accepted = state->WinnerMajorityProposal();
 
-	// Check for term
-	if (our term much lesser than accepted) {
-		// we need to break algo, our term much lesser
-		return false;
+	// Check for winner term, clusing our own 
+	if (accepted.term >= leader_info.term) {
+		// if we got accept response with equal or higher term
+		// There is another candidate, try to help him
+		this->leader.node_id = accepted.node_id;		
 	}
 
 	state->SendCommits(accepted);
 
 	if (!state->WaitMajorityCommitOrTimeout()) {
-		// accept failed to reach nodes
+		state->WaitDrainOutOrTimeout();
+		return false;
 	}
 
-	this->leader = accepted;
+	this->leader_info = accepted;
+	cluster->SetLeader(new Leader(accepted));
+	state->WaitDrainOutOrTimeout();
+
 	return true;
 }
