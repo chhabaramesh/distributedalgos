@@ -4,20 +4,22 @@ namespace Paxos {
 
 class Algo {
 	shared_ptr<Store> store;
-	shared_ptr<Leader> leader;
+	leader_info_t leader;
 	
 public:
 	Algo(shared_ptr<Cluster> cluster, shared_ptr<Store> store)
 	{
 		this->cluster = cluster;
 		this->store = store;
-		this->leader.SetTerm(cluster->GetLeader().term + 1);
-		this->leader.SetLeader(cluster->MyNodeID());
+
+		// Set leader state as not elected
+		this->leader.term = cluster->GetLeader().term + 1;
+		this->leader.node_id = cluster->MyNodeID();
 	}
 
 	void IncrTerm();
 
-	virtual DoElection();
+	virtual bool DoElection();
 	leader_info_t GetElectedLeader();
 };
 

@@ -11,8 +11,8 @@ class FileStore: public Store {
 		string filePath;
 public:
 
-		Init();
-		Open();
+		Reinit(string file);
+		Open(string file);
 
 		virtual get(string &key);
 		virtual put(string &key, string &val);

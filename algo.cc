@@ -12,9 +12,9 @@ Algo:IncrTerm()
 	this->leader_info.term++;
 }
 
-
 Paxos::DoElection()
 {
+	// cluster read lock
 	for (auto node : this->cluster->GetNodesList()) {
 		state->AddNode(shared_ptr<Node>);
 	}
@@ -44,7 +44,6 @@ Paxos::DoElection()
 	}
 
 	this->leader_info = accepted;
-	cluster->SetLeader(new Leader(accepted));
 	state->WaitDrainOutOrTimeout();
 
 	return true;
